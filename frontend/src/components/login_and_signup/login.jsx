@@ -4,6 +4,7 @@ import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import SERVER_URL from "../../server_config";
 import { useNavigate } from "react-router-dom";
 import { Toast, ToastContainer } from "react-bootstrap";
+import { mutate } from "swr";
 
 export default function Login() {
 
@@ -19,7 +20,7 @@ export default function Login() {
     async function handleClick(e) {
         e.preventDefault();
 
-        if (!email || !password){
+        if (!email || !password) {
             setToastMessage("Email and password cannot be empty");
             setShowToast(true);
             return;
@@ -34,28 +35,29 @@ export default function Login() {
 
             });
             const response = await response1.json();
-            if (response.error){
+            if (response.error) {
                 setToastMessage(response.error);
-                setShowToast(true);
-            }else{
-            console.log(response.message === undefined);
-            if (response.message !== undefined) {
-                navigate("/homepage", { replace: true });
-                setToastMessage("Login Successful, redirecting to Home Page");
                 setShowToast(true);
             } else {
-                console.log("some unknown error occured");
-                setToastMessage(response.error);
-                setShowToast(true);
-            }
+                console.log(response.message === undefined);
+                if (response.message !== undefined) {
+                    mutate(`${SERVER_URL}/login-state`);
+                    navigate("/homepage", { replace: true });
+                    setToastMessage("Login Successful, redirecting to Home Page");
+                    setShowToast(true);
+                } else {
+                    console.log("some unknown error occured");
+                    setToastMessage(response.error);
+                    setShowToast(true);
+                }
             }
 
-        } catch(err){
+        } catch (err) {
             console.log(err);
             setToastMessage("Some unknown error occures, please try again");
             setShowToast(true);
         }
-        
+
 
     }
 
@@ -100,7 +102,9 @@ export default function Login() {
                                 body: JSON.stringify({ credential }),
                                 credentials: "include"
                             })
-                                .then((res) => res.json(), navigate("/homepage", { replace: true }))
+                                .then((res) => res.json(),
+                                    mutate(`${SERVER_URL}/login-state`),
+                                    navigate("/homepage", { replace: true }))
                                 .then((data) => console.log("Backend:", data))
                                 .catch((err) => setToastMessage("Some Unknown error occured, please try again"), setShowToast(true));
 
@@ -110,7 +114,7 @@ export default function Login() {
                 </GoogleOAuthProvider>
             </Card>
         </Container>
-                <ToastContainer position="top-end" className="p-3">
+        <ToastContainer position="top-end" className="p-3">
             <Toast
                 onClose={() => setShowToast(false)}
                 show={showToast}

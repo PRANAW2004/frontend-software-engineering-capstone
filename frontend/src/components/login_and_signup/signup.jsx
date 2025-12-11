@@ -4,6 +4,7 @@ import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import SERVER_URL from "../../server_config";
 import { useNavigate } from "react-router-dom";
 import { Toast, ToastContainer } from "react-bootstrap";
+import { mutate } from "swr";
 
 export default function SignUp() {
 
@@ -84,7 +85,9 @@ export default function SignUp() {
                                     headers: { "Content-Type": "application/json" },
                                     body: JSON.stringify({ credential }),
                                 })
-                                    .then((res) => res.json(), navigate("/homepage", { replace: true }))
+                                    .then((res) => res.json(), 
+                                    mutate(`${SERVER_URL}/login-state`),
+                                    navigate("/homepage", { replace: true }))
                                     .then((data) => console.log("Backend:", data))
                                     .catch((err) => setToastMessage("Some Unknown error occured, please try again"), setShowToast(true));
                             }}
