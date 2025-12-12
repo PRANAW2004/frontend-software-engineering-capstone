@@ -77,21 +77,22 @@ export default function SignUp() {
                     <GoogleOAuthProvider clientId={CLIENT_ID}>
                         <GoogleLogin
                             onSuccess={(response) => {
-                                const credential = response.credential;
-                                console.log("Google Token:", credential);
+                            const credential = response.credential;
+                            console.log("Google Token:", credential);
 
-                                fetch(`${SERVER_URL}/google-signin`, {
-                                    method: "POST",
-                                    headers: { "Content-Type": "application/json" },
-                                    body: JSON.stringify({ credential }),
-                                })
-                                    .then((res) => res.json(), 
-                                    mutate(`${SERVER_URL}/login-state`),
-                                    navigate("/homepage", { replace: true }))
-                                    .then((data) => console.log("Backend:", data))
-                                    .catch((err) => setToastMessage("Some Unknown error occured, please try again"), setShowToast(true));
-                            }}
-                            onError={() => {setToastMessage("Google Login Failed");setShowToast(true);}}
+                            fetch(`${SERVER_URL}/google-signin`, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ credential }),
+                                credentials: "include"
+                            })
+                                .then(async (res) => {const res1 = await res.json();console.log(res1.localId);localStorage.setItem("userId", res1.localId)})
+                                .then(async (res) => {await mutate(`${SERVER_URL}/login-state`, undefined, { revalidate: true }); navigate("/homepage", { replace: true })})
+                              
+                                .catch((err) => alert(err), setToastMessage("Some Unknown error occured, please try again"), setShowToast(true));
+
+                        }}
+                        onError={() => console.log("Google Login Failed")}
                         />
                     </GoogleOAuthProvider>
                 </Form>

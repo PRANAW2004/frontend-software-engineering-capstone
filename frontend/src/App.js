@@ -7,6 +7,10 @@ import LandingPage from "./components/landing_page/landing";
 import ProtectedRoute from "./components/protected_routes/protectedRoute";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import RecipiesPage from "./components/main_components/recipies_page";
+import CategoriesPage from "./components/main_components/categories";
+import ViewRecipePage from "./components/main_components/view_recipe";
+import AddRecipesPage from "./components/main_components/addrecipe";
 
 function App() {
 
@@ -25,6 +29,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/homepage" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+        <Route path="/recipes" element={<ProtectedRoute><RecipiesPage /></ProtectedRoute>} />
+        <Route path="recipes/:category" element={<ProtectedRoute><CategoriesPage /></ProtectedRoute>} />
+        <Route path="recipes/type/:type" element={<ProtectedRoute><ViewRecipePage /></ProtectedRoute>} />
+        <Route path="recipes/own/" element={<ProtectedRoute><AddRecipesPage /></ProtectedRoute>} />
       </Routes>
     </Router>
   );

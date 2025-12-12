@@ -21,7 +21,7 @@ export default function ProtectedRoute({ children }) {
     );
 
   if (isLoading) return <p>Loading...</p>;
-  if (!data?.loggedIn) return <Navigate to="/login" replace />;
+  if (!data?.loggedIn) return <Navigate to="/" replace />;
 
   return children;
 }

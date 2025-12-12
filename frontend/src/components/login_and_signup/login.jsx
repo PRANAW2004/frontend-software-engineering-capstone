@@ -40,8 +40,11 @@ export default function Login() {
                 setShowToast(true);
             } else {
                 console.log(response.message === undefined);
+                const userId = response.userId;
                 if (response.message !== undefined) {
-                    mutate(`${SERVER_URL}/login-state`);
+                    // mutate(`${SERVER_URL}/login-state`);
+                    await mutate(`${SERVER_URL}/login-state`, undefined, { revalidate: true });
+                    localStorage.setItem("userId",userId);
                     navigate("/homepage", { replace: true });
                     setToastMessage("Login Successful, redirecting to Home Page");
                     setShowToast(true);
@@ -84,10 +87,7 @@ export default function Login() {
                     <Button variant="primary" onClick={handleClick} type="submit" className="w-100 py-2 rounded-3 fw-semibold">
                         Login
                     </Button>
-                </Form>
-
-
-                <p className="text-center mt-3 text-muted">
+                    <p className="text-center mt-3 text-muted">
                     Don't have an account? <a href="/signup" className="fw-semibold text-primary">Sign up</a>
                 </p>
                 <GoogleOAuthProvider clientId={CLIENT_ID}>
@@ -102,16 +102,17 @@ export default function Login() {
                                 body: JSON.stringify({ credential }),
                                 credentials: "include"
                             })
-                                .then((res) => res.json(),
-                                    mutate(`${SERVER_URL}/login-state`),
-                                    navigate("/homepage", { replace: true }))
-                                .then((data) => console.log("Backend:", data))
-                                .catch((err) => setToastMessage("Some Unknown error occured, please try again"), setShowToast(true));
+                                .then(async (res) => {const res1 = await res.json();console.log(res1.localId);localStorage.setItem("userId", res1.localId)})
+                                .then(async (res) => {await mutate(`${SERVER_URL}/login-state`, undefined, { revalidate: true }); navigate("/homepage", { replace: true })})
+                              
+                                .catch((err) => alert(err), setToastMessage("Some Unknown error occured, please try again"), setShowToast(true));
 
                         }}
                         onError={() => console.log("Google Login Failed")}
                     />
                 </GoogleOAuthProvider>
+                </Form>
+                
             </Card>
         </Container>
         <ToastContainer position="top-end" className="p-3">
