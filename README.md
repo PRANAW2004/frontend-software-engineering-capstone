@@ -41,7 +41,7 @@
 - Inside the .devcontainer folder and inside the devcontainer.json file add ```"ghcr.io/dhoeric/features/google-cloud-cli:1": {"version": "latest"}``` inside the features.
 - Rebuild the container
 - In the terminal, verify the google cloud installation by ```gcloud --version```
-- Authenticate the google cloud with gcloud auth login command
-- After authentication, setup the project with gcloud config set project &lt;project-id&gt;
+- Authenticate the google cloud with '''gcloud auth login''' command
+- After authentication, setup the project with ```gcloud config set project &lt;project-id&gt;```
 - Create the build file in react with the command ```npm run build```
 
