@@ -1,8 +1,8 @@
 # RecipeMaster FRONTEND
 
-[frontend link](https://capstone-project-frontend.ue.r.appspot.com/)
-[backend link](https://exalted-legacy-481104-h4.ue.r.appspot.com/)
-[video link]()
+- frontend link: https://capstone-project-frontend.ue.r.appspot.com/
+- backend link: https://exalted-legacy-481104-h4.ue.r.appspot.com/
+- video link: 
 
 ## CONFIGURATION AND SETUP
 
