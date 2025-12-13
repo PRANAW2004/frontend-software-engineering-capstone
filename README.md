@@ -91,3 +91,9 @@ handlers:
 
 <img src="./architecture.png" alt="Architecture" width="100%"/>
 
+## ATTRIBUTION
+ - https://www.npmjs.com/package/aos
+ - https://github.com/tarampampam/error-pages
+ - https://react-bootstrap.netlify.app/
+ - https://www.npmjs.com/package/react-router-dom
+ - https://www.npmjs.com/package/swr

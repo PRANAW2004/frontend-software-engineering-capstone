@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card, Button, Modal, Form, Row, Col, InputGroup, ToastContainer, Toast } from "react-bootstrap";
 import SERVER_URL from "../../server_config";
-import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export default function AddRecipesPage({ userId }) {
