@@ -6,7 +6,7 @@
 - Open the folder in the vscode as a docker container
 - Change directory to frontend with the command "cd frontend"
 - Now run "npm install" to install all the necessary files
-- create a .env file inside frontend folder and add REACT_APP_CLIENT_ID=&lt;google client id&gt;
+- create a .env file inside frontend folder and add ```REACT_APP_CLIENT_ID=<google client id>```
 
 
 ## ARCHITECTURE EXPLANATION
@@ -42,6 +42,6 @@
 - Rebuild the container
 - In the terminal, verify the google cloud installation by ```gcloud --version```
 - Authenticate the google cloud with '''gcloud auth login''' command
-- After authentication, setup the project with ```gcloud config set project &lt;project-id&gt;```
+- After authentication, setup the project with ```gcloud config set project <project-id>```
 - Create the build file in react with the command ```npm run build```
 
