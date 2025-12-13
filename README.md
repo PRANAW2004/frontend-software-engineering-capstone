@@ -88,7 +88,7 @@ handlers:
 - First test is to check for the heading *RecipeMaster*, Second test is to test the *Start Exploring Recipes* button and Third test is to test the *Add your own Recipe* button and Fourth test is to test the *form by adding the recipe* and clicking the *Add Recipe Button*.
 - Make sure to run the webpage in testing mode and disable the animationa while testing. 
 
-## SEQUENCE DIAGRAM
+## DESIGN ARTIFACT: SEQUENCE DIAGRAM
 
 <img src="./architecture.png" alt="Architecture" width="100%"/>
 
