@@ -71,5 +71,5 @@ handlers:
 
 ## SEQUENCE DIAGRAM
 
-<img src="./architecture.png" alt="Architecture" width="600"/>
+<img src="./architecture.png" alt="Architecture" width="100%"/>
 
