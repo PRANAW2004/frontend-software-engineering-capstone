@@ -48,7 +48,7 @@
 - Inside the .devcontainer folder and inside the devcontainer.json file add ```"ghcr.io/dhoeric/features/google-cloud-cli:1": {"version": "latest"}``` inside the features.
 - Rebuild the container
 - In the terminal, verify the google cloud installation by ```gcloud --version```
-- Authenticate the google cloud with '''gcloud auth login''' command
+- Authenticate the google cloud with ```gcloud auth login``` command
 - After authentication, setup the project with ```gcloud config set project <project-id>```
 - Create the build file in react with the command ```npm run build```
 - Create *app.yaml* file and paste the below commands into the file for the website to host.
@@ -56,7 +56,7 @@
 runtime: nodejs20
 
 env_variables:
-  REACT_APP_CLIENT_ID: 138466072982-adt7rp94n1i0vam4k89dniaa4pk0s3d2.apps.googleusercontent.com
+  REACT_APP_CLIENT_ID: <google client-id>
 
 handlers:
   # Serve static assets (JS, CSS, images, etc.)
@@ -69,6 +69,7 @@ handlers:
     static_files: build/index.html
     upload: build/index.html
 ```
+- Make sure the *Google Client ID* is added which can be got from *Google OAuth* in Cloud Console.
 - Now execute ```gcloud app deploy``` to host the website
 - After deploy execute ```gcloud app browse``` to see the URL
 
@@ -97,3 +98,4 @@ handlers:
  - https://react-bootstrap.netlify.app/
  - https://www.npmjs.com/package/react-router-dom
  - https://www.npmjs.com/package/swr
+ - https://developers.google.com/identity/protocols/oauth2
