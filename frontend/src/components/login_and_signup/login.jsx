@@ -5,13 +5,33 @@ import SERVER_URL from "../../server_config";
 import { useNavigate } from "react-router-dom";
 import { Toast, ToastContainer } from "react-bootstrap";
 import { mutate } from "swr";
+import { useReducer } from "react";
+
+const initialFormState = {
+    email: "",
+    password: "",
+};
+
+function formReducer(state, action) {
+    switch (action.type) {
+        case "SET_FIELD":
+            return { ...state, [action.field]: action.value };
+        case "RESET":
+            return initialFormState;
+        default:
+            return state;
+    }
+}
+
 
 export default function Login() {
 
     const navigate = useNavigate();
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    // const [email, setEmail] = useState("");
+    // const [password, setPassword] = useState("");
+    const [formState, dispatch] = useReducer(formReducer, initialFormState);
+    const { email, password } = formState;
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState("");
 
@@ -34,7 +54,10 @@ export default function Login() {
                 credentials: "include"
 
             });
+
             const response = await response1.json();
+            console.log(response.status);
+
             if (response.error) {
                 setToastMessage(response.error);
                 setShowToast(true);
@@ -44,7 +67,7 @@ export default function Login() {
                 if (response.message !== undefined) {
                     // mutate(`${SERVER_URL}/login-state`);
                     await mutate(`${SERVER_URL}/login-state`, undefined, { revalidate: true });
-                    localStorage.setItem("userId",userId);
+                    localStorage.setItem("userId", userId);
                     navigate("/homepage", { replace: true });
                     setToastMessage("Login Successful, redirecting to Home Page");
                     setShowToast(true);
@@ -74,13 +97,24 @@ export default function Login() {
                 <Form>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Email</Form.Label>
-                        <Form.Control name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter email" className="email" />
+                        <Form.Control name="email" type="email" value={email}
+                            //  onChange={(e) => setEmail(e.target.value)} 
+                            onChange={(e) =>
+                                dispatch({ type: "SET_FIELD", field: "email", value: e.target.value })
+                            }
+                            placeholder="Enter email" className="email"
+                        />
                     </Form.Group>
 
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="password" />
+                        <Form.Control name="password" type="password" value={password}
+                            onChange={(e) =>
+                                dispatch({ type: "SET_FIELD", field: "password", value: e.target.value })
+                            }
+
+                            placeholder="Password" className="password" />
                     </Form.Group>
 
 
@@ -88,31 +122,31 @@ export default function Login() {
                         Login
                     </Button>
                     <p className="text-center mt-3 text-muted">
-                    Don't have an account? <a href="/signup" className="fw-semibold text-primary">Sign up</a>
-                </p>
-                <GoogleOAuthProvider clientId={CLIENT_ID}>
-                    <GoogleLogin
-                        onSuccess={(response) => {
-                            const credential = response.credential;
-                            console.log("Google Token:", credential);
+                        Don't have an account? <a href="/signup" className="fw-semibold text-primary">Sign up</a>
+                    </p>
+                    <GoogleOAuthProvider clientId={CLIENT_ID}>
+                        <GoogleLogin
+                            onSuccess={(response) => {
+                                const credential = response.credential;
+                                console.log("Google Token:", credential);
 
-                            fetch(`${SERVER_URL}/google-signin`, {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ credential }),
-                                credentials: "include"
-                            })
-                                .then(async (res) => {const res1 = await res.json();console.log(res1.localId);localStorage.setItem("userId", res1.localId)})
-                                .then(async (res) => {await mutate(`${SERVER_URL}/login-state`, undefined, { revalidate: true }); navigate("/homepage", { replace: true })})
-                              
-                                .catch((err) => {console.log(err); setToastMessage("Some Unknown error occured, please try again");setShowToast(true)});
+                                fetch(`${SERVER_URL}/google-signin`, {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({ credential }),
+                                    credentials: "include"
+                                })
+                                    .then(async (res) => { const res1 = await res.json(); console.log(res1.localId); localStorage.setItem("userId", res1.localId) })
+                                    .then(async (res) => { await mutate(`${SERVER_URL}/login-state`, undefined, { revalidate: true }); navigate("/homepage", { replace: true }) })
 
-                        }}
-                        onError={() => console.log("Google Login Failed")}
-                    />
-                </GoogleOAuthProvider>
+                                    .catch((err) => { console.log(err.status); setToastMessage("Some Unknown error occured, please try again"); setShowToast(true) });
+
+                            }}
+                            onError={() => console.log("Google Login Failed")}
+                        />
+                    </GoogleOAuthProvider>
                 </Form>
-                
+
             </Card>
         </Container>
         <ToastContainer position="top-end" className="p-3">

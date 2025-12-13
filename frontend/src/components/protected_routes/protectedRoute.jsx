@@ -21,9 +21,9 @@ export default function ProtectedRoute({ children }) {
         }
     );
   // // Bypass auth when running Playwright tests
-  // if (process.env.REACT_APP_PLAYWRIGHT_TEST === "true") {
-  //   return children;
-  // }
+  if (process.env.REACT_APP_PLAYWRIGHT_TEST === "true") {
+    return children;
+  }
 
   if (isLoading) return <p>Loading...</p>;
   if (!data?.loggedIn) return <Navigate to="/" replace />;

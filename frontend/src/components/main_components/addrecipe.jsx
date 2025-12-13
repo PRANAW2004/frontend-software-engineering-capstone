@@ -39,6 +39,11 @@ export default function AddRecipesPage({ userId }) {
             try {
                 const userId = localStorage.getItem("userId");
                 const res = await fetch(`${SERVER_URL}/get-own-recipes/${userId}`);
+                console.log(res.status);
+                if (res.status !== 200){
+                    window.location.href = `/error/${res.status}`;
+                    
+                }
                 const data = await res.json();
                 setRecipes(data);
             } catch (err) {
@@ -87,6 +92,7 @@ export default function AddRecipesPage({ userId }) {
             const response = await fetch(url, { method, body: formData });
 
             if (!response.ok) {
+                console.log(response.status);
             setShowModal(false);
                 throw new Error('Failed to save recipe');
 

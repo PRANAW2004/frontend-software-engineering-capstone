@@ -4,17 +4,22 @@ import { Card, Spinner, Table } from "react-bootstrap";
 import SERVER_URL from "../../server_config";
 
 export default function ViewRecipePage() {
-  const { type } = useParams(); // this should be idMeal for a single recipe
+  const { type } = useParams();
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
     console.log(type);
   useEffect(() => {
     async function fetchRecipe() {
       try {
-        const response = await fetch(`${SERVER_URL}/recipes/type/${type}`); // your backend endpoint for single recipe
+        const response = await fetch(`${SERVER_URL}/recipes/type/${type}`); 
+        console.log(response.status);
+        if (response.status !== 200){
+          window.location.href = `/error/${response.status}`;
+          return;
+        }
         const data = await response.json();
         console.log(data);
-        setRecipe(data[0]); // take the first meal
+        setRecipe(data[0]);
       } catch (err) {
         console.log(err);
       }

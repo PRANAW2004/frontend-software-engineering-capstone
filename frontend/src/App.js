@@ -12,6 +12,7 @@ import CategoriesPage from "./components/main_components/categories";
 import ViewRecipePage from "./components/main_components/view_recipe";
 import AddRecipesPage from "./components/main_components/addrecipe";
 import ViewOwnRecipePage from "./components/main_components/view-own-recipe";
+import ErrorWrapper from "./errorPage";
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
         <Route path="recipes/type/:type" element={<ProtectedRoute><ViewRecipePage /></ProtectedRoute>} />
         <Route path="recipes/own/" element={<ProtectedRoute><AddRecipesPage /></ProtectedRoute>} />
         <Route path="recipes/own/:id" element={<ProtectedRoute><ViewOwnRecipePage /></ProtectedRoute>} />
+        <Route path="/error/:code" element={<ErrorWrapper />} />
       </Routes>
     </Router>
   );

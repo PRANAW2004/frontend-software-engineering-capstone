@@ -16,6 +16,11 @@ export default function RecipiesPage() {
     async function fetchRecipes() {
       try {
         const apiRes = await fetch(`${SERVER_URL}/api/recipes/random`);
+        console.log(apiRes.status);
+        if (apiRes.status !== 200){
+          window.location.href = `/error/${apiRes.status}`;
+          return;
+        }
         const apiData = await apiRes.json();
 
         // Normalize API data

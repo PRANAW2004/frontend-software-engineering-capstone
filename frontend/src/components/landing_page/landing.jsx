@@ -23,7 +23,6 @@ export default function LandingPage() {
             revalidateIfStale: false,
         }
     );
-
     useEffect(() => {
         if (!isLoading) {
             if (data?.loggedIn) {

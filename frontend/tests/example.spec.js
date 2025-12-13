@@ -4,33 +4,32 @@ import { test, expect } from '@playwright/test';
 
 
 test('has title', async ({ page }) => {
-  await page.goto('https://capstone-project-frontend.ue.r.appspot.com/');
+  await page.goto('http://localhost:3000/');
   await expect(page).toHaveTitle(/RecipeMaster/);
 });
 
 
 test("Homepage explore button test", async ({ page }) => {
   
-  await page.goto("https://capstone-project-frontend.ue.r.appspot.com/homepage");
+  await page.goto("http://localhost:3000/homepage");
 
   // Start Exploring Recipes button
   const startLink = page.locator('#start-explore');
   await expect(startLink).toBeVisible();
   await startLink.click();
-  await expect(page).toHaveURL("https://capstone-project-frontend.ue.r.appspot.com/recipes");
+  await expect(page).toHaveURL("http://localhost:3000/recipes");
 
 });
 
 test("Homepage add recipe button test", async ({ page }) => {
-  test.use({ storageState: 'storageState.json' });
-  await page.goto("https://capstone-project-frontend.ue.r.appspot.com/homepage");
+  await page.goto("http://localhost:3000/homepage");
 
   const addLink = page.locator('#add-recipe');
   await expect(addLink).toBeVisible();
   await addLink.click();
 
 
-  await expect(page).toHaveURL("https://capstone-project-frontend.ue.r.appspot.com/recipes/own");
+  await expect(page).toHaveURL("http://localhost:3000/recipes/own");
 });
 
 
@@ -70,7 +69,7 @@ test('Add a new recipe', async ({ page }) => {
   });
 
   // 🔹 Go to page
-  await page.goto('https://capstone-project-frontend.ue.r.appspot.com/recipes/own');
+  await page.goto('http://localhost:3000/recipes/own');
 
   await expect(page.getByText('🍽 My Recipes')).toBeVisible();
 

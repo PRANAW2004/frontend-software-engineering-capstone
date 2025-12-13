@@ -10,11 +10,15 @@ export default function HomePage() {
 
     async function LogOut() {
         try {
-            await fetch(`${SERVER_URL}/logout`, { method: "POST", credentials: "include" });
+            const response = await fetch(`${SERVER_URL}/logout`, { method: "POST", credentials: "include" });
+            console.log(response.status);
+            if (response.status !== 200){
+                window.location.href = `/error/${response.status}`
+            }
             await mutate(`${SERVER_URL}/login-state`, undefined, { revalidate: true });
             navigate("/", { replace: true });
         } catch (err) {
-            console.log(err);
+            console.log(err.status);
         }
     }
 
@@ -35,8 +39,14 @@ export default function HomePage() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: input }),
         });
-
+        console.log(res.status);
+        if (res.status !== 200){
+            setChat([...newChat, {sender: "bot",text:"Unknown Error Occured, Please try again"}]);
+            setLoading(false);
+            return;
+        }
         const data = await res.json();
+        
 
         setChat([...newChat, { sender: "bot", text: data.reply }]);
         setInput("");
