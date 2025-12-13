@@ -1,5 +1,9 @@
 # RecipeMaster FRONTEND
 
+[frontend link](https://capstone-project-frontend.ue.r.appspot.com/)
+[backend link](https://exalted-legacy-481104-h4.ue.r.appspot.com/)
+[video link]()
+
 ## CONFIGURATION AND SETUP
 
 - Clone the container file from the repository which contains .devcontainer
