@@ -6,7 +6,7 @@
 
 ## CONFIGURATION AND SETUP
 
-- Clone the container file from the repository which contains .devcontainer
+- Clone the repository which contains .devcontainer
 - Open the folder in the vscode as a docker container
 - Change directory to frontend with the command "cd frontend"
 - Now run "npm install" to install all the necessary files
@@ -72,6 +72,20 @@ handlers:
 - Now execute ```gcloud app deploy``` to host the website
 - After deploy execute ```gcloud app browse``` to see the URL
 
+## INSTRUCTIONS TO RUN THE PROJECT LOCALLY
+- Make sure you have completed the setup
+- After setting up the project open the terminal in the frontend foler inside the dev container
+- Now run ```npm run start``` to run the webpage in development mode or ```npm run start:test``` to run the webpage in testing mode
+- Make sure the server url is correctly configured in the server_config.js file.
+
+## TEST FILE AND INSTRUCTIONS
+- Testing of the webpage is done by playwright
+- Install the playwright test using ```npm i playwright```
+- This creates the test folder inside the frontend folder with the file name ```example.spec.js```
+- This directory already contains the playwright test file for testing. Playwright will be installed when ```npm install``` is executed inside frontend folder.
+- There are 4 tests inside ```example.spec.js``` folder.
+- First test is to check for the heading *RecipeMaster*, Second test is to test the *Start Exploring Recipes* button and Third test is to test the *Add your own Recipe* button and Fourth test is to test the *form by adding the recipe* and clicking the *Add Recipe Button*.
+- Make sure to run the webpage in testing mode and disable the animationa while testing. 
 
 ## SEQUENCE DIAGRAM
 
