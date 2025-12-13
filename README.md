@@ -35,4 +35,13 @@
 - User interacts with the Presentation Layer → sends request to Application Layer → Application Layer queries the Data Layer → Data Layer returns response → Application  Layer processes and sends it back to Presentation Layer.
 - This architecture ensures modularity, scalability, and maintainability, as each layer is loosely coupled and can be developed or updated independently.
 
+## DEPLOYMENT STEPS
+
+- The website is deployed to Google Cloud.
+- Inside the .devcontainer folder and inside the devcontainer.json file add ```"ghcr.io/dhoeric/features/google-cloud-cli:1": {"version": "latest"}``` inside the features.
+- Rebuild the container
+- In the terminal, verify the google cloud installation by ```gcloud --version```
+- Authenticate the google cloud with gcloud auth login command
+- After authentication, setup the project with gcloud config set project &lt;project-id&gt;
+- Create the build file in react with the command ```npm run build```
 
