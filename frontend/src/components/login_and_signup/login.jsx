@@ -74,13 +74,13 @@ export default function Login() {
                 <Form>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter email" className="email" />
+                        <Form.Control name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter email" className="email" />
                     </Form.Group>
 
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="password" />
+                        <Form.Control name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="password" />
                     </Form.Group>
 
 
@@ -105,7 +105,7 @@ export default function Login() {
                                 .then(async (res) => {const res1 = await res.json();console.log(res1.localId);localStorage.setItem("userId", res1.localId)})
                                 .then(async (res) => {await mutate(`${SERVER_URL}/login-state`, undefined, { revalidate: true }); navigate("/homepage", { replace: true })})
                               
-                                .catch((err) => alert(err), setToastMessage("Some Unknown error occured, please try again"), setShowToast(true));
+                                .catch((err) => {alert(err);console.log(err); setToastMessage("Some Unknown error occured, please try again");setShowToast(true)});
 
                         }}
                         onError={() => console.log("Google Login Failed")}

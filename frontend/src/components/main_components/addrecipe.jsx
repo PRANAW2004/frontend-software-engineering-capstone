@@ -1,14 +1,25 @@
 import { useEffect, useState } from "react";
-import { Card, Button, Modal, Form, Row, Col, InputGroup } from "react-bootstrap";
+import { Card, Button, Modal, Form, Row, Col, InputGroup, ToastContainer, Toast } from "react-bootstrap";
 import SERVER_URL from "../../server_config";
+import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function AddRecipesPage({ userId }) {
     const [recipes, setRecipes] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [categoryFilter, setCategoryFilter] = useState("");
 
+    const navigate = useNavigate();
+
     const [showModal, setShowModal] = useState(false);
     const [ingredientsInput, setIngredientsInput] = useState("");
+
+    const [loading, setLoading] = useState(true);
+
+    // Toast Messages
+    const [toastMessage, setToastMessage] = useState("");
+    const [showToast, setShowToast] = useState(false);
+    const [toastVariant, setToastVariant] = useState("success");
 
     const emptyRecipe = {
         name: "",
@@ -32,7 +43,11 @@ export default function AddRecipesPage({ userId }) {
                 setRecipes(data);
             } catch (err) {
                 console.error(err);
+                setToastVariant("danger");
+                setToastMessage("Failed to load recipes");
+                setShowToast(true);
             }
+            setLoading(false);
         }
         fetchRecipes();
     }, [userId]);
@@ -41,6 +56,10 @@ export default function AddRecipesPage({ userId }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const userId = localStorage.getItem("userId");
+        if (!userId) {
+            setShowModal(false);
+            throw new Error("User not logged in");
+        }
         let parsedIngredients = [];
         try {
             parsedIngredients = JSON.parse(ingredientsInput || "[]");
@@ -63,17 +82,21 @@ export default function AddRecipesPage({ userId }) {
             : `${SERVER_URL}/add-recipe`;
 
         const method = newRecipe._id ? "PUT" : "POST";
-        // formData.forEach((value, key) => {
-        //     console.log(key, ":", value);
-        // });
 
         try {
-            await fetch(url, { method, body: formData });
+            const response = await fetch(url, { method, body: formData });
 
-            // Close modal
+            if (!response.ok) {
             setShowModal(false);
+                throw new Error('Failed to save recipe');
 
-            // Reset fields
+            }
+
+            setToastVariant("success");
+            setToastMessage(newRecipe._id ? "Recipe updated successfully!" : "Recipe added successfully!");
+            setShowToast(true);
+
+            setShowModal(false);
             setNewRecipe(emptyRecipe);
             setIngredientsInput("");
 
@@ -83,6 +106,9 @@ export default function AddRecipesPage({ userId }) {
             setRecipes(data);
         } catch (err) {
             console.error(err);
+            setToastVariant("danger");
+            setToastMessage("Error adding/updating recipe");
+            setShowToast(true);
         }
     };
 
@@ -92,8 +118,15 @@ export default function AddRecipesPage({ userId }) {
             const userId = localStorage.getItem("userId");
             await fetch(`${SERVER_URL}/add-recipe/delete/${id}/${userId}`, { method: "DELETE" });
             setRecipes(recipes.filter((r) => r._id !== id));
+
+            setToastVariant("success");
+            setToastMessage("Recipe deleted successfully!");
+            setShowToast(true);
         } catch (err) {
             console.error(err);
+            setToastVariant("danger");
+            setToastMessage("Failed to delete recipe");
+            setShowToast(true);
         }
     };
 
@@ -104,8 +137,29 @@ export default function AddRecipesPage({ userId }) {
             (categoryFilter ? r.category === categoryFilter : true)
     );
 
-    return (
-        <div className="container py-5">
+
+
+    return (<>
+        {loading && (
+            <div className="d-flex justify-content-center align-items-center" style={{ height: "50vh" }}>
+                <div className="spinner-border text-primary" role="status"></div>
+            </div>
+        )}
+
+        {!loading && (<div className="container py-5">
+            {/* Toast Notification */}
+            <ToastContainer position="top-end" className="p-3">
+                <Toast
+                    onClose={() => setShowToast(false)}
+                    show={showToast}
+                    delay={3000}
+                    autohide
+                    bg={toastVariant}
+                >
+                    <Toast.Body className="text-white">{toastMessage}</Toast.Body>
+                </Toast>
+            </ToastContainer>
+
             <h2 className="mb-4">🍽 My Recipes</h2>
 
             {/* Search + Filter */}
@@ -139,36 +193,79 @@ export default function AddRecipesPage({ userId }) {
 
             {/* Recipe Grid */}
             <Row xs={1} md={3} className="g-4">
-                {filteredRecipes.map((r) => (
+                {filteredRecipes.map((r, index) => (
                     <Col key={r._id}>
-                        <Card className="shadow-sm h-100">
-                            {r.imageUrl && (
+                        <Card data-aos="fade-up" data-aos-delay={index * 300} className="shadow-sm h-100 rounded-4 overflow-hidden border-0"
+                            style={{
+                                transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = "translateY(-10px) scale(1.03)";
+                                e.currentTarget.style.boxShadow = "0 15px 30px rgba(0, 0, 0, 0.2)";
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = "translateY(0)";
+                                e.currentTarget.style.boxShadow = "0 0 0 rgba(0, 0, 0, 0)";
+                            }}
+                        >
+
+                            {/* Image Header */}
+                            {r.imageUrl ? (
                                 <Card.Img
                                     variant="top"
                                     src={r.imageUrl}
                                     style={{ height: "200px", objectFit: "cover" }}
                                 />
+                            ) : (
+                                <div
+                                    style={{
+                                        height: "200px",
+                                        background: "#f8f9fa",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        color: "#999",
+                                        fontSize: "18px",
+                                        fontWeight: "500",
+                                    }}
+                                >
+                                    No Image Available
+                                </div>
                             )}
 
-                            <Card.Body className="d-flex flex-column">
-                                <Card.Title>{r.name}</Card.Title>
+                            {/* Body with border */}
+                            <Card.Body
+                                className="d-flex flex-column"
+                                style={{
+                                    border: "3px solid #ddd",           // visible border
+                                    borderTop: "none",                  // avoid double-border at top
+                                    borderRadius: "0 0 1rem 1rem",      // rounded bottom corners
+                                    padding: "1rem 1.2rem",
+                                }}
+                            >
+                                <Card.Title className="fw-bold mb-2">{r.name}</Card.Title>
 
-                                <Card.Text className="mb-2">
+                                <Card.Text className="text-muted small mb-3">
                                     {r.category && <div><strong>Category:</strong> {r.category}</div>}
                                     {r.area && <div><strong>Area:</strong> {r.area}</div>}
                                     {r.tags && <div><strong>Tags:</strong> {r.tags}</div>}
                                 </Card.Text>
 
-                                <div className="mt-auto d-flex justify-content-between">
+                                <div className="mt-auto d-flex justify-content-between gap-2">
+
                                     <Button
-                                        variant="danger"
-                                        onClick={() => handleDelete(r._id)}
+                                        variant="primary"
+                                        className="w-100"
+                                        onClick={() => {
+                                            navigate(`/recipes/own/${r._id}`)
+                                        }}
                                     >
-                                        Delete
+                                        View
                                     </Button>
 
                                     <Button
                                         variant="secondary"
+                                        className="w-100"
                                         onClick={() => {
                                             setShowModal(true);
                                             setNewRecipe({ ...r });
@@ -179,10 +276,21 @@ export default function AddRecipesPage({ userId }) {
                                     >
                                         Edit
                                     </Button>
+
+                                    <Button
+                                        variant="danger"
+                                        className="w-100"
+                                        onClick={() => handleDelete(r._id)}
+                                    >
+                                        Delete
+                                    </Button>
+
                                 </div>
                             </Card.Body>
                         </Card>
                     </Col>
+
+
                 ))}
             </Row>
 
@@ -274,7 +382,7 @@ export default function AddRecipesPage({ userId }) {
                         </Form.Group>
 
                         {/* Instructions */}
-                        <Form.Group className="mb-3">
+                        <Form.Group className="mb-3" controlId="instructions">
                             <Form.Label>Instructions</Form.Label>
                             <Form.Control
                                 as="textarea"
@@ -319,5 +427,7 @@ export default function AddRecipesPage({ userId }) {
                 </Modal.Body>
             </Modal>
         </div>
+        )}
+    </>
     );
 }

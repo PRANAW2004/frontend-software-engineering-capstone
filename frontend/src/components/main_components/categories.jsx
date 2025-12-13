@@ -27,7 +27,20 @@ export default function CategoriesPage() {
         fetchRecipes();
     }, [category]);
 
-    if (loading) return <Spinner animation="border" />;
+    if (loading) return (
+      <div
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100vh"  // full viewport height
+    }}
+  >
+    <Spinner animation="border" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </Spinner>
+  </div>
+  );
 
     return (
         <div className="container py-5">

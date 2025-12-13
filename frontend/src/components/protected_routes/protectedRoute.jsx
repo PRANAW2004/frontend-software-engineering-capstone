@@ -10,6 +10,7 @@ const fetcher = (url) =>
   });
 
 export default function ProtectedRoute({ children }) {
+
   const { data, error, isLoading } = useSWR(
         `${SERVER_URL}/login-state`,
         fetcher,
@@ -19,6 +20,10 @@ export default function ProtectedRoute({ children }) {
             revalidateIfStale: false,
         }
     );
+  // // Bypass auth when running Playwright tests
+  // if (process.env.REACT_APP_PLAYWRIGHT_TEST === "true") {
+  //   return children;
+  // }
 
   if (isLoading) return <p>Loading...</p>;
   if (!data?.loggedIn) return <Navigate to="/" replace />;

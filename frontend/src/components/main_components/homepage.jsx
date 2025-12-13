@@ -65,7 +65,7 @@ export default function HomePage() {
     ];
 
 
-    return <div>
+    return <div id="homepage-main">
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
             <a className="navbar-brand fw-bold" href="/homepage">
                 🍽️ RecipeMaster
@@ -91,15 +91,15 @@ export default function HomePage() {
             }}
         >
             <div>
-                <h1 className="display-4 fw-bold">Discover. Cook. Enjoy.</h1>
-                <p className="fs-4 mt-3">
+                <h1 data-aos="fade-right" className="display-4 fw-bold">Discover. Cook. Enjoy.</h1>
+                <p data-aos="fade-left" className="fs-4 mt-3">
                     Manage recipes, explore flavors, and craft your perfect dishes.
                 </p>
                 <Col>
-                    <a href="/recipes" className="btn btn-warning btn-lg mt-3 me-5">
+                    <a data-aos="zoom-in" id="start-explore" href="/recipes"  className="btn btn-warning btn-lg mt-3 me-5">
                         Start Exploring Recipes
                     </a>
-                    <a href="/recipes/own" className="btn btn-primary btn-lg mt-3">
+                    <a data-aos="zoom-in" id="add-recipe" href="/recipes/own" className="btn btn-primary btn-lg mt-3">
                         Add your own Recipe
                     </a>
                 </Col>
@@ -109,7 +109,7 @@ export default function HomePage() {
 
         {/* CATEGORIES */}
         <div className="container my-5">
-            <h2 className="mb-4 fw-bold">Popular Categories</h2>
+            <h2 data-aos="fade-right" className="mb-4 fw-bold">Popular Categories</h2>
 
             <div className="row g-4">
                 {categories.map((cat, index) => (
@@ -118,6 +118,8 @@ export default function HomePage() {
                             className="shadow-sm border-0 clickable-card"
                             style={{ borderRadius: "15px", cursor: "pointer" }}
                             onClick={() => navigate(`/recipes/${cat.route}`)}
+                            data-aos="fade-up"
+                            data-aos-delay={index * 300}
                         >
                             <Card.Img
                                 variant="top"
@@ -141,11 +143,11 @@ export default function HomePage() {
 
         {/* FEATURED RECIPES */}
         <div className="container my-5">
-            <h2 className="mb-4 fw-bold">Featured Recipes</h2>
+            <h2 data-aos="fade-left" className="mb-4 fw-bold">Featured Recipes</h2>
 
             <div className="row g-4">
                 {/* CARD */}
-                <div className="col-md-4">
+                <div data-aos="fade-up" data-aos-delay={0} className="col-md-4">
                     <div className="card shadow-sm">
                         <img
                             src="https://www.themealdb.com//images//media//meals//wvqpwt1468339226.jpg"
@@ -165,7 +167,7 @@ export default function HomePage() {
                     </div>
                 </div>
 
-                <div className="col-md-4">
+                <div data-aos="fade-up" data-aos-delay={300} className="col-md-4">
                     <div className="card shadow-sm">
                         <img
                             src="https://www.themealdb.com//images//media//meals//wyxwsp1486979827.jpg"
@@ -185,7 +187,7 @@ export default function HomePage() {
                     </div>
                 </div>
 
-                <div className="col-md-4">
+                <div data-aos="fade-up" data-aos-delay={600} className="col-md-4">
                     <div className="card shadow-sm">
                         <img
                             src="https://www.themealdb.com//images//media//meals//xrrwpx1487347049.jpg"
