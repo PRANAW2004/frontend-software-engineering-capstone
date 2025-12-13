@@ -38,7 +38,8 @@ export default function SignUp() {
                 setShowToast(true);
             } else {
                 setToastMessage("Sign Up Successful :)");
-                setToastMessage("Redirecting to Login Pafe");
+                setToastMessage("Redirecting to Login Page");
+                navigate("/login");
                 setShowToast(true);
             }
         } catch (err) {

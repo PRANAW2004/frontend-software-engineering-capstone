@@ -105,7 +105,7 @@ export default function Login() {
                                 .then(async (res) => {const res1 = await res.json();console.log(res1.localId);localStorage.setItem("userId", res1.localId)})
                                 .then(async (res) => {await mutate(`${SERVER_URL}/login-state`, undefined, { revalidate: true }); navigate("/homepage", { replace: true })})
                               
-                                .catch((err) => {alert(err);console.log(err); setToastMessage("Some Unknown error occured, please try again");setShowToast(true)});
+                                .catch((err) => {console.log(err); setToastMessage("Some Unknown error occured, please try again");setShowToast(true)});
 
                         }}
                         onError={() => console.log("Google Login Failed")}

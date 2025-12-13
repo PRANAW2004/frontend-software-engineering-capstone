@@ -1,0 +1,14 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "https://capstone-project-frontend.ue.r.appspot.com",
+      "localStorage": [
+        {
+          "name": "userId",
+          "value": "test-user-123"
+        }
+      ]
+    }
+  ]
+}
