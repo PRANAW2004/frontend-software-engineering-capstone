@@ -9,6 +9,7 @@
 - create a .env file inside frontend folder and add ```REACT_APP_CLIENT_ID=<google client id>```
 
 
+
 ## ARCHITECTURE EXPLANATION
 
 ### The project follows a 3-Tier Architecture, which separates the system into three distinct layers: Presentation Layer, Application (Business Logic) Layer, and Data Layer.
@@ -35,6 +36,8 @@
 - User interacts with the Presentation Layer → sends request to Application Layer → Application Layer queries the Data Layer → Data Layer returns response → Application  Layer processes and sends it back to Presentation Layer.
 - This architecture ensures modularity, scalability, and maintainability, as each layer is loosely coupled and can be developed or updated independently.
 
+
+
 ## DEPLOYMENT STEPS
 
 - The website is deployed to Google Cloud.
@@ -44,4 +47,29 @@
 - Authenticate the google cloud with '''gcloud auth login''' command
 - After authentication, setup the project with ```gcloud config set project <project-id>```
 - Create the build file in react with the command ```npm run build```
+- Create *app.yaml* file and paste the below commands into the file for the website to host.
+```
+runtime: nodejs20
+
+env_variables:
+  REACT_APP_CLIENT_ID: 138466072982-adt7rp94n1i0vam4k89dniaa4pk0s3d2.apps.googleusercontent.com
+
+handlers:
+  # Serve static assets (JS, CSS, images, etc.)
+  - url: /(.*\.(js|css|png|jpg|jpeg|gif|svg|ico|json|map))
+    static_files: build/\1
+    upload: build/(.*\.(js|css|png|jpg|jpeg|gif|svg|ico|json|map))
+
+  # React Router fallback
+  - url: /.*
+    static_files: build/index.html
+    upload: build/index.html
+```
+- Now execute ```gcloud app deploy``` to host the website
+- After deploy execute ```gcloud app browse``` to see the URL
+
+
+## SEQUENCE DIAGRAM
+
+
 
