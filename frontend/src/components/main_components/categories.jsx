@@ -33,7 +33,7 @@ export default function CategoriesPage() {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      height: "100vh"  // full viewport height
+      height: "100vh" 
     }}
   >
     <Spinner animation="border" role="status">
@@ -53,7 +53,7 @@ export default function CategoriesPage() {
                             className="shadow-sm"
                             style={{
                                 borderRadius: "15px",
-                                border: "2px solid #ddd"   // Visible border
+                                border: "2px solid #ddd"
                             }}
                         >
                             <Card.Img

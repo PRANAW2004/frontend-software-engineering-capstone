@@ -87,7 +87,6 @@ export default function HomePage() {
             </div>
         </nav>
 
-        {/* HERO */}
         <section
             className="hero text-center d-flex align-items-center justify-content-center"
             style={{
@@ -117,7 +116,6 @@ export default function HomePage() {
             </div>
         </section>
 
-        {/* CATEGORIES */}
         <div className="container my-5">
             <h2 data-aos="fade-right" className="mb-4 fw-bold">Popular Categories</h2>
 
@@ -151,7 +149,6 @@ export default function HomePage() {
             </div>
         </div>
 
-        {/* FEATURED RECIPES */}
         <div className="container my-5">
             <h2 data-aos="fade-left" className="mb-4 fw-bold">Featured Recipes</h2>
 

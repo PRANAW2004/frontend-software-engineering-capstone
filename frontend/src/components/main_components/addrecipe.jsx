@@ -15,7 +15,6 @@ export default function AddRecipesPage({ userId }) {
 
     const [loading, setLoading] = useState(true);
 
-    // Toast Messages
     const [toastMessage, setToastMessage] = useState("");
     const [showToast, setShowToast] = useState(false);
     const [toastVariant, setToastVariant] = useState("success");
@@ -152,7 +151,6 @@ export default function AddRecipesPage({ userId }) {
         )}
 
         {!loading && (<div className="container py-5">
-            {/* Toast Notification */}
             <ToastContainer position="top-end" className="p-3">
                 <Toast
                     onClose={() => setShowToast(false)}
@@ -167,7 +165,6 @@ export default function AddRecipesPage({ userId }) {
 
             <h2 className="mb-4">🍽 My Recipes</h2>
 
-            {/* Search + Filter */}
             <Row className="mb-3">
                 <Col md={6}>
                     <InputGroup>
@@ -196,7 +193,6 @@ export default function AddRecipesPage({ userId }) {
                 </Col>
             </Row>
 
-            {/* Recipe Grid */}
             <Row xs={1} md={3} className="g-4">
                 {filteredRecipes.map((r, index) => (
                     <Col key={r._id}>
@@ -214,7 +210,6 @@ export default function AddRecipesPage({ userId }) {
                             }}
                         >
 
-                            {/* Image Header */}
                             {r.imageUrl ? (
                                 <Card.Img
                                     variant="top"
@@ -238,13 +233,12 @@ export default function AddRecipesPage({ userId }) {
                                 </div>
                             )}
 
-                            {/* Body with border */}
                             <Card.Body
                                 className="d-flex flex-column"
                                 style={{
-                                    border: "3px solid #ddd",           // visible border
-                                    borderTop: "none",                  // avoid double-border at top
-                                    borderRadius: "0 0 1rem 1rem",      // rounded bottom corners
+                                    border: "3px solid #ddd",       
+                                    borderTop: "none",                  
+                                    borderRadius: "0 0 1rem 1rem",      
                                     padding: "1rem 1.2rem",
                                 }}
                             >
@@ -299,7 +293,6 @@ export default function AddRecipesPage({ userId }) {
                 ))}
             </Row>
 
-            {/* Floating Add Button */}
             <Button
                 style={{
                     position: "fixed",
@@ -313,13 +306,13 @@ export default function AddRecipesPage({ userId }) {
                 onClick={() => {
                     setShowModal(true);
                     setNewRecipe(emptyRecipe);
-                    setIngredientsInput(""); // Placeholder now works
+                    setIngredientsInput(""); 
                 }}
             >
                 +
             </Button>
 
-            {/* Modal */}
+    
             <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
                 <Modal.Header closeButton>
                     <Modal.Title>
@@ -329,7 +322,6 @@ export default function AddRecipesPage({ userId }) {
 
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
-                        {/* Name & Category */}
                         <Row className="mb-3">
                             <Col>
                                 <Form.Control
@@ -352,7 +344,6 @@ export default function AddRecipesPage({ userId }) {
                             </Col>
                         </Row>
 
-                        {/* Area & Tags */}
                         <Row className="mb-3">
                             <Col>
                                 <Form.Control
@@ -374,7 +365,6 @@ export default function AddRecipesPage({ userId }) {
                             </Col>
                         </Row>
 
-                        {/* Ingredients */}
                         <Form.Group className="mb-3">
                             <Form.Label>Ingredients (JSON Array)</Form.Label>
                             <Form.Control
@@ -386,7 +376,6 @@ export default function AddRecipesPage({ userId }) {
                             />
                         </Form.Group>
 
-                        {/* Instructions */}
                         <Form.Group className="mb-3" controlId="instructions">
                             <Form.Label>Instructions</Form.Label>
                             <Form.Control
@@ -399,7 +388,6 @@ export default function AddRecipesPage({ userId }) {
                             />
                         </Form.Group>
 
-                        {/* YouTube URL */}
                         <Form.Group className="mb-3">
                             <Form.Label>YouTube URL</Form.Label>
                             <Form.Control
@@ -411,7 +399,6 @@ export default function AddRecipesPage({ userId }) {
                             />
                         </Form.Group>
 
-                        {/* Image Upload */}
                         <Form.Group className="mb-3">
                             <Form.Label>Image</Form.Label>
                             <Form.Control

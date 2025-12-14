@@ -23,7 +23,6 @@ export default function RecipiesPage() {
         }
         const apiData = await apiRes.json();
 
-        // Normalize API data
         const normalizedApiData = apiData.map(r => ({
           id: r.idMeal,
           name: r.name || r.strMeal,

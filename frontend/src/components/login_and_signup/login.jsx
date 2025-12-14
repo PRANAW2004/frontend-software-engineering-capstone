@@ -28,8 +28,6 @@ export default function Login() {
 
     const navigate = useNavigate();
 
-    // const [email, setEmail] = useState("");
-    // const [password, setPassword] = useState("");
     const [formState, dispatch] = useReducer(formReducer, initialFormState);
     const { email, password } = formState;
     const [showToast, setShowToast] = useState(false);

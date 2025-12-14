@@ -20,7 +20,7 @@ export default function ProtectedRoute({ children }) {
             revalidateIfStale: false,
         }
     );
-  // // Bypass auth when running Playwright tests
+
   if (process.env.REACT_APP_PLAYWRIGHT_TEST === "true") {
     return children;
   }

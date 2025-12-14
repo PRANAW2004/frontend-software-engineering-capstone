@@ -29,7 +29,7 @@ export default function ViewOwnRecipePage() {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      height: "100vh"  // full viewport height
+      height: "100vh" 
     }}
   >
     <Spinner animation="border" role="status">
@@ -47,7 +47,6 @@ export default function ViewOwnRecipePage() {
   return (
     <div className="container py-5">
 
-      {/* Name and Image */}
       <h2 className="fw-bold mb-3">{recipe.name}</h2>
 
       {recipe.imageUrl ? (
@@ -73,7 +72,6 @@ export default function ViewOwnRecipePage() {
         </div>
       )}
 
-      {/* Basic Info */}
       <Card className="mb-4 p-3 shadow-sm">
         <p>
           <strong>Category:</strong> {recipe.category} |{" "}
@@ -82,7 +80,6 @@ export default function ViewOwnRecipePage() {
         </p>
       </Card>
 
-      {/* Ingredients */}
       <Card className="mb-4 p-3 shadow-sm">
         <h4 className="fw-bold mb-3">Ingredients</h4>
 
@@ -105,13 +102,11 @@ export default function ViewOwnRecipePage() {
         </Table>
       </Card>
 
-      {/* Instructions */}
       <Card className="mb-4 p-3 shadow-sm">
         <h4 className="fw-bold mb-3">Instructions</h4>
         <p style={{ whiteSpace: "pre-line" }}>{recipe.instructions}</p>
       </Card>
 
-      {/* YouTube Video */}
       {youtubeEmbedUrl && (
         <Card className="mb-4 p-3 shadow-sm">
           <h4 className="fw-bold mb-3">Video Tutorial</h4>
